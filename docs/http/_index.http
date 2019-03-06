@@ -1,0 +1,9 @@
+@host = http://localhost:8080
+
+###
+### Health Check
+GET {{host}}/healthcheck
+
+###
+### Prometheus Metrics
+GET {{host}}/metrics

@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  stack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL:
+        https://s3.amazonaws.com/canary-cloudformation/microservice_pipeline.yml
+      Parameters:
+        AppName: "reporter-server"
+
+        SourceProvider: "CodeCommit"
+        SourceRepo: "reporter"
+        SourceBranch: "feature/codebuild"
+        GitHubToken: "null"
+        # TestImage: "aws/codebuild/golang:1.10"
+        TestBuildspec: "build/aws/server/buildspec.test.yml"
+
+        AcptBuildspec: "build/aws/server/buildspec.acpt.yml"
+        AcptDeployspec: "deployment/aws/server/deployspec.acpt.yml"
+
+        ProdBuildspec: "build/aws/server/buildspec.prod.yml"
+        ProdDeployspec: "deployment/aws/server/deployspec.prod.yml"
+
+        EnableTestStage: "true" # String
+        EnableBuildStage: "true" # String
+        EnableAcptStage: "true" # String
+        EnableProdStage: "true" # String
+Outputs:
+  StackRef:
+    Value: !Ref stack
+  ECRUrl:
+    Value: !GetAtt stack.Outputs.ECRUrl
+  CodePipelineUrl:
+    Value: !GetAtt stack.Outputs.CodePipelineUrl

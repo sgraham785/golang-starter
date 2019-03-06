@@ -1,0 +1,22 @@
+version: 0.1
+stack:
+  name: reporter-cli # Note: Update this with your stack name
+  template:
+    file: pipeline.yml
+    bucket: canary-codepipeline-artifacts # Note: Update this with your bucket name.  Stacks are uploaded here prior to deployment.'
+
+  ###############################
+  # Define stack input parameters.
+  ###############################
+
+  ###############################
+  # Define stack capabilities required.
+  ###############################
+  capabilities:
+    - "CAPABILITY_IAM"
+
+  ###############################
+  # Define global tags.
+  ###############################
+  tags:
+    app: "reporter"

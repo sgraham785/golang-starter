@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Initializing Docker from within container...
+      - sh /usr/local/bin/dockerd-entrypoint.sh
+    finally:
+      - docker version
+  build:
+    commands:
+      - echo Deploy started on `date`
+      - echo Applying k8s Deployment...
+      - kubectl-apply deployment --file=$CODEBUILD_SRC_DIR/deployment/k8s/cli/deployment.yml --namespace=acceptance --labels="build:v.$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
+      - echo Deploy ended on `date`
+      # - echo Service started on `date`
+      # - echo Applying k8s Service...
+      # - kubectl-apply service --file=$CODEBUILD_SRC_DIR/deployment/k8s/service.yml --namespace=acceptance --labels="build:v.$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
+  post_build:
+    commands:
+      - echo Build completed on `date`

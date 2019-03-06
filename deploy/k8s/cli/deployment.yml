@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reporter-cli
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reporter-cli
+      tier: cli
+  template:
+    metadata:
+      labels:
+        app: reporter-cli
+        tier: cli
+    spec:
+      containers:
+        - name: reporter-cli
+          ports:
+            - containerPort: 443
+              name: http-cli

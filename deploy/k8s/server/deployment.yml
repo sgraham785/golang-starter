@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reporter-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reporter-server
+      tier: server
+  template:
+    metadata:
+      labels:
+        app: reporter-server
+        tier: server
+    spec:
+      containers:
+        - name: reporter-server
+          ports:
+            - containerPort: 443
+              name: http-server
